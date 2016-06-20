@@ -1,0 +1,48 @@
+swagger: '2.0'
+info:
+  title: UNIQLO User Info Resources
+  description: User Info Resources
+  version: "1"
+host: test3.uniqlo.com
+schemes:
+  - https
+basePath: /jp/member/v1
+produces:
+  - application/json
+paths:
+  /addresses/{id}.json:
+    get:
+      summary: Get address
+      description: |
+        get an address
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The address no.
+          required: true
+          type: string
+      tags:
+        - Address
+      responses:
+        200:
+          description: Address data corresponding to the given address number
+          schema:
+            $ref: '#/definitions/Address'
+definitions:
+  Address:
+    type: object
+    description: Member's address
+    properties:
+      id:
+        type: string
+        example: '1'
+      familyName:
+        type: string
+        example: 'family'
+      givenName:
+        type: string
+        example: 'sample'

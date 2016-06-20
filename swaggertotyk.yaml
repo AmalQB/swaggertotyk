@@ -1,0 +1,90 @@
+swagger: '2.0'
+info:
+  title: "Swagger Design-Driven DevOps Demo"
+  description: "Your Potential, Our Passion."
+  version: "1.0.0"
+host: "kong.fastretailing.com"
+schemes:
+  - "https"
+basePath: "/v1"
+tags:
+- name: "greeting"
+  description: "Greetings Service"
+produces:
+  - "application/json"
+paths:
+  /helloworld:
+    get:
+      summary: "Returns Hello World"
+      description: |
+        "Returns Hello World with Name"
+      produces:
+      - "application/json"
+      tags:
+        - "greeting"
+      responses:
+        200:
+          description: "Say Hello World"
+          schema:
+              $ref: '#/definitions/HelloWorld'
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: '#/definitions/Error'
+  /goodbye:
+    get:
+      summary: "Say GoodBye"
+      description: |
+        "Returns GoodBye with Reason"
+      produces:
+      - "application/json"
+      tags:
+        - "greeting"
+      responses:
+        200:
+          description: "Say Good Bye"
+          schema:
+            $ref: '#/definitions/GoodBye'
+        default:
+          description: "Unexpected error"
+          schema:
+              $ref: '#/definitions/Error'
+definitions:
+  HelloWorld:
+    type: object
+    required:
+    - "helloworld"
+    - "name"
+    properties:
+      helloworld:
+          type: "string"
+          description: "helloword"
+          example: "Hello World!"
+      name:
+          type: "string"
+          description: "name of person"
+          example: "kenta san"
+  GoodBye:
+    type: "object"
+    required:
+    - "goodbye"
+    - "reason"
+    properties:
+      goodbye:
+        type: "string"
+        description: "goodbye"
+        example: "Good Bye!"
+      reason:
+        type: "string"
+        description: "Reason of Good Bye"
+        example: "I am going Back Office!"
+  Error:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+      description:
+        type: "string"
