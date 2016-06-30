@@ -63,7 +63,7 @@ definitions:
       name:
           type: "string"
           description: "name of person"
-          example: "kenta san"
+          example: "Kenta kun"
   GoodBye:
     type: "object"
     required:
