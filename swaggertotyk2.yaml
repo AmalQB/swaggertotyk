@@ -32,6 +32,28 @@ paths:
           description: Address data corresponding to the given address number
           schema:
             $ref: '#/definitions/Address'
+  /jobs/{id}.json:
+    get:
+      summary: Get Jobs
+      description: |
+        get a Job
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The address no.
+          required: true
+          type: string
+      tags:
+        - Address
+      responses:
+        200:
+          description: Address data corresponding to the given address number
+          schema:
+            $ref: '#/definitions/Jobs'
 definitions:
   Address:
     type: object
@@ -43,6 +65,19 @@ definitions:
       familyName:
         type: string
         example: 'family'
+      givenName:
+        type: string
+        example: 'sample'
+  Jobs:
+    type: object
+    description: Member's Jobs
+    properties:
+      id:
+        type: string
+        example: '1'
+      JobName:
+        type: string
+        example: 'engineer'
       givenName:
         type: string
         example: 'sample'
