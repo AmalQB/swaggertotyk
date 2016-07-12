@@ -3,6 +3,8 @@ info:
   title: "Swagger Design-Driven DevOps Demo"
   description: "Your Potential, Our Passion."
   version: "1.0.0"
+store-types: 
+
 host: "kong.fastretailing.com"
 schemes:
   - "https"
@@ -49,6 +51,24 @@ paths:
           description: "Unexpected error"
           schema:
               $ref: '#/definitions/Error'
+  /api/jp/uniqlo/store-types:
+    get:
+      summary: "API that returns all store types"
+      description: |
+        "Returns store types based on store area"
+      produces:
+      - "application/json"
+      tags:
+        - "API"
+      responses:
+        200:
+          description: "store-types"
+          schema:
+            $ref: '#/definitions/store-types'
+        default:
+          description: "Unexpected error"
+          schema:
+              $ref: '#/definitions/Error'
 definitions:
   HelloWorld:
     type: object
@@ -78,6 +98,44 @@ definitions:
         type: "string"
         description: "Reason of Good Bye"
         example: "I am going Back Office!"
+  store-types:
+    type: "object"
+    required:
+    - "brand_code"
+    - "region"
+    - "count"
+    - "storeTypes"
+    properties:
+      brand_code:
+        type: "string"
+        description: "brand_code"
+        example: "UNIQLO"
+      region:
+        type: "string"
+        description: "region"
+        example: "JP"
+      count:
+        type: "string"
+        description: "count"
+        example: "3"
+      storeTypes:
+        type: "array"
+        description: "store-types"
+        items:
+          schema:
+            $ref: "#/definitions/stores"
+  stores:          
+    type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "1"
+        name:
+          type: "string"
+          example: "none"
+        active_flag: 
+          type: "string"
+          example: "1"    
   Error:
     type: "object"
     properties:
