@@ -3,8 +3,6 @@ info:
   title: "Swagger Design-Driven DevOps Demo"
   description: "Your Potential, Our Passion."
   version: "1.0.0"
-store-types: 
-
 host: "kong.fastretailing.com"
 schemes:
   - "https"
@@ -15,7 +13,7 @@ tags:
 produces:
   - "application/json"
 paths:
-  '/helloworld:'
+  /helloworld:
     get:
       summary: "Returns Hello World"
       description: |
@@ -32,8 +30,8 @@ paths:
         default:
           description: "Unexpected error"
           schema:
-            $ref: '#/definitions/Error'
-  '/goodbye:'
+              $ref: '#/definitions/Error'
+  /goodbye:
     get:
       summary: "Say GoodBye"
       description: |
@@ -46,12 +44,12 @@ paths:
         200:
           description: "Say Good Bye"
           schema:
-            $ref: '#/definitions/GoodBye'
+              $ref: '#/definitions/GoodBye'
         default:
           description: "Unexpected error"
           schema:
               $ref: '#/definitions/Error'
-  '/api/{region}/{brandCode}/store-types':
+  /api/{region}/{brandCode}/store-types:
     get:
       summary: "API that returns all store types"
       description: |
@@ -64,12 +62,12 @@ paths:
         200:
           description: "store-types"
           schema:
-            $ref: '#/definitions/store-types'
+              $ref: '#/definitions/store-types'
         default:
           description: "Unexpected error"
           schema:
               $ref: '#/definitions/Error'
-  '/api/{region}/{brandCode}/{version}/getStoreDetail.json':
+  /api/{region}/{brandCode}/{version}/getStoreDetail.json:
     get:
       summary: "API that returns store details of a specific storeId"
       description: |
@@ -82,17 +80,14 @@ paths:
         200:
           description: "store-details"
           schema:
-            $ref: '#/definitions/store-details'
+              $ref: '#/definitions/store-details'
         default:
           description: "Unexpected error"
           schema:
               $ref: '#/definitions/Error'            
 definitions:
   HelloWorld:
-    type: object
-    required:
-    - "helloworld"
-    - "name"
+    type: "object"
     properties:
       helloworld:
           type: "string"
@@ -104,9 +99,6 @@ definitions:
           example: "kenta san"
   GoodBye:
     type: "object"
-    required:
-    - "goodbye"
-    - "reason"
     properties:
       goodbye:
         type: "string"
@@ -118,11 +110,6 @@ definitions:
         example: "I am going Back Office!"
   store-types:
     type: "object"
-    required:
-    - "brand_code"
-    - "region"
-    - "count"
-    - "storeTypes"
     properties:
       brand_code:
         type: "string"
@@ -138,14 +125,13 @@ definitions:
         description: "count"
         example: "3"
       storeTypes:
-        type: "array"
+        type: "string"
         description: "store-types"
-        example : [{ "id": 1000,
+        example :  [{ "id": 1000,
                       "name": "None",
                       "active_flag": 1 }]
   store-details:
     type: "object"
-    description: "store-details"  
     properties:
       brand_code:
         type: "string"
@@ -226,14 +212,14 @@ definitions:
         format: "float"
         description: "fax number"
         example: ""
-     car_access:
+      car_access:
         type: "string"
         description: "Car access information"
         example: "国道12号線沿い、札幌方面より江別方面へ直進、右側、ひばりが丘タウンプラザ内"
       bus_access:
         type: "string"
         description: "Bus access information"
-        example: "1)地下鉄東西線新札幌駅発「白27山本、旭町経由、山本4区」行き、市営バス利用「ひばりが丘駅前」降車、徒歩5分\n2)空知線札幌駅発「新札幌駅」行き、JR北海バス利用「旭町」降車、徒歩1分",
+        example: "1)地下鉄東西線新札幌駅発「白27山本、旭町経由、山本4区」行き、市営バス利用「ひばりが丘駅前」降車、徒歩5分\n2)空知線札幌駅発「新札幌駅」行き、JR北海バス利用「旭町」降車、徒歩1分"
       train_access:
         type: "string"
         description: "Train access information"
@@ -262,7 +248,7 @@ definitions:
         type: "string"
         description: "Regular holiday"
         example: ""
-     store_url:
+      store_url:
         type: "string"
         description: "Store URL"
         example: "http://www.uniqlo.com/jp/shop/info/#10100387"
