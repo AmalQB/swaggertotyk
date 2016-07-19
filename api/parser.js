@@ -75,3 +75,4 @@ function createMockResponse(responsePayload) {
   };
   return harPayload;
 }
+
