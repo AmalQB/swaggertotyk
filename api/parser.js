@@ -7,8 +7,9 @@ var _ = require('lodash');
 module.exports = function swaggerParse(body) {
     var res = [];
     var yamlDef = yaml.parse(body);
+    // console.log(yamlDef);
     return SwaggerParser.validate(yamlDef).then(function (api) {
-      console.log(api);
+      console.log("sdasd",api);
       // Check Endpoint's Scheme
       var scheme = "";
       if (api.schemes.length == 1) {
@@ -26,38 +27,39 @@ module.exports = function swaggerParse(body) {
         return bluebird.map(Object.keys(api.paths[paths]), function (method) {
           return bluebird.map(Object.keys(api.paths[paths][method].responses), function (statusCode) {
             if (statusCode == "200") {
-              console.log('DSfadfdfaaaaaaaaaaaaaaaaaaaaaa')
-             return payload(paths,method,statusCode,api)
+              var apis = api.paths[paths][method].responses[statusCode];
+              responsePayload ={};
+             return payload(apis,responsePayload)
              .then(function(payload){
-              return payload ;
-             })
+              console.log("sdasd",payload)
+              var response = createMockResponse(payload);
+              return response;
+             });
             }
           });
         });
       });
     });
   }
-  function payload(path,method,statusCode,api) {
-    console.log("ASDdddddddddd");
-    var responsePayload = {};
-    return bluebird.reduce(Object.keys(api.paths[path][method].responses[statusCode].schema.properties), function (responsePayload, props) {
-      responsePayload[props] = "";
-      if ('example' in api.paths[path][method].responses[statusCode].schema.properties[props]) {
-        responsePayload[props] = responsePayload[props] + api.paths[path][method].responses[statusCode].schema.properties[props].example;
+  function payload(apis,responsePayload) {
+    return bluebird.reduce(Object.keys(apis.schema.properties),function (responsePayload, props) {   
+      console.log(responsePayload);
+      if ('example' in apis.schema.properties[props]) {
+        console.log(props);
+        responsePayload[props] = "";
+        responsePayload[props] = responsePayload[props] + apis.schema.properties[props].example;
+        console.log(responsePayload);
         return responsePayload;
-      } else if ('items' in api.paths[path][method].responses[statusCode].schema.properties[props]) {
-        return bluebird.map(Object.keys(api.paths[path][method].responses[statusCode].schema.properties[props].items.properties), function (props1) {
-          responsePayload[props1] = responsePayload[props1] + api.paths[path][method].responses[statusCode].schema.properties[props].items.properties[props].items.properties[props1];
-          return responsePayload;
-        });
+      } else if ('items' in apis.schema.properties[props]) {
+        responsePayload[props] = {'a' : "dss"};
+        console.log(responsePayload);
+        res = apis.schema.properties[props]
+        res.schema = res.items ;
+        delete res.items; 
+       return payload(res,responsePayload[props]);    
       }
-    }, {}).then(function (responsePayload) {
-      console.log("dsdsad", responsePayload);
-      var response = createMockResponse(responsePayload);
-      return response;
-    });
+    },responsePayload);
   }
-
 function createMockResponse(responsePayload) {
   var harPayload = {
     "status": 200,

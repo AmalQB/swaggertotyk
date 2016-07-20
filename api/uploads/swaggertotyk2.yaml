@@ -1,83 +1,65 @@
 swagger: '2.0'
 info:
-  title: UNIQLO User Info Resources
-  description: User Info Resources
-  version: "1"
-host: test3.uniqlo.com
+  title: Uber API
+  description: Move your app forward with the Uber API
+  version: "1.0.0"
+# the domain of the service
+host: api.uber.com
+# array of all schemes that your API supports
 schemes:
   - https
-basePath: /jp/member/v1
+# will be prefixed to all paths
+basePath: /v1
 produces:
   - application/json
 paths:
-  /addresses/{id}.json:
+  /history:
     get:
-      summary: Get address
-      description: |
-        get an address
+      summary: User Activity
+      description: The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
       parameters:
-        - name: Authorization
-          in: header
-          required: true
-          type: string
-        - name: id
-          in: path
-          description: The address no.
-          required: true
-          type: string
+        - name: offset
+          in: query
+          type: integer
+          format: int32
+          description: Offset the list of returned results by this amount. Default is zero.
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          description: Number of items to retrieve. Default is 5, maximum is 100.
       tags:
-        - Address
+        - User
       responses:
         200:
-          description: Address data corresponding to the given address number
+          description: History information for the given user
           schema:
-            $ref: '#/definitions/Address'
-  /jobs/{id}.json:
-    get:
-      summary: Get Jobs
-      description: |
-        get a Job
-      parameters:
-        - name: Authorization
-          in: header
-          required: true
-          type: string
-        - name: id
-          in: path
-          description: The address no.
-          required: true
-          type: string
-      tags:
-        - Address
-      responses:
-        200:
-          description: Address data corresponding to the given address number
-          schema:
-            $ref: '#/definitions/Jobs'
+            $ref: '#/definitions/Activities'
 definitions:
-  Address:
+  Act:
     type: object
-    description: Member's address
     properties:
-      id:
+      uuid:
         type: string
-        example: '1'
-      familyName:
-        type: string
-        example: 'family'
-      givenName:
-        type: string
-        example: 'sample'
-  Jobs:
+        description: Unique identifier for the activity
+        example: "asd"
+  Activity:
     type: object
-    description: Member's Jobs
     properties:
-      id:
+      me:
+        type: array
+        items : 
+          $ref:  '#/definitions/Act'      
+  Activities:
+    type: object
+    properties:
+      history:
+        type: array
+        items : 
+          $ref:  '#/definitions/Activity'
+      asd:
         type: string
-        example: '1'
-      JobName:
-        type: string
-        example: 'engineer'
-      givenName:
-        type: string
-        example: 'sample'
+        example: "sad"
+      
+        
+  
