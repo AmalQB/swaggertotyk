@@ -43,6 +43,10 @@ definitions:
         type: string
         description: Unique identifier for the activity
         example: "asd"
+      ljk:
+        type: string
+        description: Unique identifier for the activity
+        example: "asd"  
   Activity:
     type: object
     properties:

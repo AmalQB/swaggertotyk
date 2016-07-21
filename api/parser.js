@@ -28,8 +28,9 @@ module.exports = function swaggerParse(body) {
           return bluebird.map(Object.keys(api.paths[paths][method].responses), function (statusCode) {
             if (statusCode == "200") {
               var apis = api.paths[paths][method].responses[statusCode];
-              responsePayload ={};
-             return payload(apis,responsePayload)
+              var keys = "";
+              responsePayload = {};
+             return payload(apis,keys)
              .then(function(payload){
               console.log("sdasd",payload)
               var response = createMockResponse(payload);
@@ -41,22 +42,30 @@ module.exports = function swaggerParse(body) {
       });
     });
   }
-  function payload(apis,responsePayload) {
+  function payload(apis,keys) {
+         var val = keys ;
+         var finalPayload = {};
+         finalPayload[val] = {};
+    console.log('asd',keys);
     return bluebird.reduce(Object.keys(apis.schema.properties),function (responsePayload, props) {   
       console.log(responsePayload);
       if ('example' in apis.schema.properties[props]) {
-        console.log(props);
-        responsePayload[props] = "";
-        responsePayload[props] = responsePayload[props] + apis.schema.properties[props].example;
-        console.log(responsePayload);
+          if (val === "") {
+          responsePayload[props] = "";
+          responsePayload[props] = responsePayload[props] +  apis.schema.properties[props].example;
+          }
+          else {
+        responsePayload[val] = finalPayload[val] ;
+        responsePayload[val][props] = "" ;
+        responsePayload[val][props] = responsePayload[val][props] + apis.schema.properties[props].example;
+           }
         return responsePayload;
       } else if ('items' in apis.schema.properties[props]) {
-        responsePayload[props] = {'a' : "dss"};
-        console.log(responsePayload);
+        keys = keys + '/' + props
         res = apis.schema.properties[props]
         res.schema = res.items ;
         delete res.items; 
-       return payload(res,responsePayload[props]);    
+       return payload(res,keys);    
       }
     },responsePayload);
   }
@@ -69,7 +78,7 @@ function createMockResponse(responsePayload) {
     "cookies": [],
     "content": {
       "mimeType": "application/json",
-      "text": JSON.stringify(responsePayload)
+      "text": responsePayload
     },
     "redirectURL": "",
     "bodySize": 0,
