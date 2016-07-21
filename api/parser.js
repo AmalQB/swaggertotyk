@@ -67,7 +67,7 @@ module.exports = function swaggerParse(body) {
         delete res.items; 
        return payload(res,keys);    
       }
-    },responsePayload);
+    },{});
   }
 function createMockResponse(responsePayload) {
   var harPayload = {
