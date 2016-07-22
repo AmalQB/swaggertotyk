@@ -1,0 +1,82 @@
+swagger: '2.0'
+info:
+  title: Uber API
+  description: Move your app forward with the Uber API
+  version: "1.0.0"
+# the domain of the service
+host: api.uber.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /history:
+    get:
+      summary: User Activity
+      description: The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.
+      parameters:
+        - name: offset
+          in: query
+          type: integer
+          format: int32
+          description: Offset the list of returned results by this amount. Default is zero.
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          description: Number of items to retrieve. Default is 5, maximum is 100.
+      tags:
+        - User
+      responses:
+        200:
+          description: History information for the given user
+          schema:
+            $ref: '#/definitions/Activities'
+definitions:
+  final:
+    type: object
+    properties:
+      fck:
+        type: string
+        example: "sad"
+  Act:
+    type: object
+    properties: 
+      ljk:
+        type: string
+        description: Unique identifier for the activity
+        example: "asd"
+      uuid:
+        type: array
+        items :  
+          $ref: '#/definitions/final'  
+  Ac:
+    type: object
+    properties:
+      mfd:
+        type: array
+        items : 
+          $ref:  '#/definitions/Act'        
+  Activity:
+    type: object
+    properties:
+      me:
+        type: array
+        items : 
+          $ref:  '#/definitions/Ac'      
+  Activities:
+    type: object
+    properties:
+      asd:
+        type: string
+        example: "sad"
+      history:
+        type: array
+        items : 
+          $ref:  '#/definitions/Activity' 
+      
+        
+  
