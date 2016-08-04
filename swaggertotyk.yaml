@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: "Swagger Design-Driven DevOps Demo"
+  title: "Swagger Design-Driven"
   description: "Your Potential, Our Passion."
   version: "1.0.0"
 store-types: 
